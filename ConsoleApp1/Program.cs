@@ -1,40 +1,43 @@
-﻿
-using ClassLibrary1;
+﻿using ClassLibrary1;
 
-Trapezoid trapezoid = new(); //создание экземпляра класса
+Trapezoid trapezoid;
+
+
 int menuItem = 0; //переменная для управления пользовательским меню 
 //цикл, обеспечивающий отображение и функционирование меню
+do
+{
+    trapezoid = new(entValue("X1"), entValue("X2"), entValue("A")); //создание экземпляра класса
+}
+while (trapezoid.IsExist() == false);
 while (menuItem != 5)
 {
     Console.Clear();
-    Console.WriteLine("1. Задать параметры криволинейной трапеции");
-    Console.WriteLine("2. Вычисление длины сторон и периметра");
-    Console.WriteLine("3. Вычисление площади");
-    Console.WriteLine("4. Проверка принадлежности точки");
-    Console.WriteLine("5. Выход");
+    Console.WriteLine("1. Вычисление длины сторон и периметра");
+    Console.WriteLine("2. Вычисление площади");
+    Console.WriteLine("3. Проверка принадлежности точки");
+    Console.WriteLine("4. Выход");
     menuItem=Convert.ToInt32(Console.ReadLine());
     switch(menuItem)
     {
+
         case 1:
-            {
-                do
-                {
-                    Trapezoid.CreateTrapezoid(trapezoid);
-                }
-                while (Trapezoid.IsExist(trapezoid.x1, trapezoid.x2, trapezoid.a) == false);
-            }
+            trapezoid.SideLengths();
             break;
         case 2:
-            Trapezoid.SideLengths(trapezoid.x1, trapezoid.x2, trapezoid.a, trapezoid);
+            trapezoid.CalcArea();
             break;
         case 3:
-            Trapezoid.CalcArea(trapezoid);
-            break;
-        case 4:
-            Trapezoid.PointOwnership(trapezoid);
+            trapezoid.PointOwnership();
             break;
         default:
             break;
 
     }
+}
+
+double entValue(string name)
+{
+    Console.WriteLine($"Введите {name}");
+    return Convert.ToDouble(Console.ReadLine());
 }

@@ -2,18 +2,15 @@
 {
     public class Trapezoid
     {
-        public double x1, x2, a, y1, y2;
-        /// <summary>
-        /// метод для создания трапеции
-        /// </summary>
-        /// <param name="trapezoid"></param>
-        public static void CreateTrapezoid(Trapezoid trapezoid)
+        public double X1, X2, A, Y1, Y2;
+
+        public Trapezoid(double X1, double X2, double A)
         {
-            trapezoid.x1 = EnterValue("x1");
-            trapezoid.x2 = EnterValue("x2");
-            trapezoid.a = EnterValue("основание логарифма");
-            Console.WriteLine($"Вершины равны ({trapezoid.x1}; {trapezoid.y1}), ({trapezoid.x2}; {trapezoid.y2})");
+            this.X1 = X1;
+            this.X2 = X2;
+            this.A = A;
         }
+
         /// <summary>
         /// метод для проверки возможности существования трапеции
         /// </summary>
@@ -21,40 +18,28 @@
         /// <param name="x2"></param>
         /// <param name="a"></param>
         /// <returns></returns>
-        public static bool IsExist(double x1, double x2, double a)
+        public bool IsExist()
         {
-            if (x1 <= 0 || x2 <= 0 || a <= 0 || a == 1 || (x1 < 1 && x2 > 1))
+            if (X1 <= 0 || X2 <= 0 || A <= 0 || A == 1 || (X1 < 1 && X2 > 1))
             {
                 Console.WriteLine("Фигура не может существовать! Попробуйте снова");
                 return false;
             }
             else return true;
         }
-        /// <summary>
-        /// метод для получения значений трапеции от пользователя
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        private static double EnterValue(string name)
-        {
-            Console.WriteLine($"Введите {name}");
-            double value = Convert.ToDouble(Console.ReadLine());
-            return value;
-        }
-        /// <summary>
         /// метод для вычисления периметра и сторон трапеции
         /// </summary>
         /// <param name="x1"></param>
         /// <param name="x2"></param>
         /// <param name="a"></param>
         /// <param name="trapezoid"></param>
-        public static void SideLengths(double x1, double x2, double a, Trapezoid trapezoid)
+        public void SideLengths()
         {
             double topSide = 0, bottomSide = 0, leftSide = 0, RightSide = 0, perimeter;
-            topSide = CalcIntegral(trapezoid.x1, trapezoid.x2, 20, LenghtFunction, trapezoid);
-            bottomSide = Math.Abs(x2 - x1);
-            leftSide = Math.Abs(Math.Log(x1, a));
-            RightSide = Math.Abs(Math.Log(x2, a));
+            topSide = CalcIntegral(20, LenghtFunction);
+            bottomSide = Math.Abs(X2 - X1);
+            leftSide = Math.Abs(Math.Log(X1, A));
+            RightSide = Math.Abs(Math.Log(X2, A));
             perimeter = topSide + bottomSide + leftSide + RightSide;
             Console.WriteLine($"Верхняя сторона = {topSide}, нижняя сторона = {bottomSide}, левая сторона = {leftSide}, правая сторона = {RightSide}");
             Console.WriteLine($"Периметр = {perimeter}");
@@ -75,9 +60,9 @@
         /// метод для вычисления площади
         /// </summary>
         /// <param name="trapezoid"></param>
-        public static void CalcArea(Trapezoid trapezoid)
+        public void CalcArea()
         {
-            Console.WriteLine($"Площадь = {CalcIntegral(trapezoid.x1, trapezoid.x2, 20, LogFunction, trapezoid)}");
+            Console.WriteLine($"Площадь = {CalcIntegral(20, LogFunction)}");
             Console.ReadLine();
         }
         /// <summary>
@@ -99,13 +84,13 @@
         /// <param name="func"></param>
         /// <param name="trapezoid"></param>
         /// <returns></returns>
-        static double CalcIntegral(double a, double b, int n, Func<double, double, double> func, Trapezoid trapezoid)
+        double CalcIntegral( int n, Func<double, double, double> func)
         {
-            double result = 0, h = (b - a) / n;
+            double result = 0, h = (X2 - X1) / n;
 
             for (int i = 0; i < n; i++)
             {
-                result += func(a + h / 2 + i * h, trapezoid.a);
+                result += func(X1 + h / 2 + i * h, A);
             }
 
             result *= h;
@@ -115,15 +100,15 @@
         /// метод для задания точки и проверки ее на принадлежность фигуре
         /// </summary>
         /// <param name="tr"></param>
-        public static void PointOwnership(Trapezoid tr)
+        public void PointOwnership()
         {
             Console.WriteLine("Введите x-координату точки");
             double x = Convert.ToDouble(Console.ReadLine());
             Console.WriteLine("Введите у-координату точки");
             double y = Convert.ToDouble(Console.ReadLine());
-            if (tr.x1 <= x && tr.x2 >= x)
+            if (X1 <= x && X2 >= x)
             {
-                if (Math.Abs(Math.Log(x, tr.a)) >= y && Math.Sign(y) == Math.Sign(Math.Log(x, tr.a)))
+                if (Math.Abs(Math.Log(x, A)) >= y && Math.Sign(y) == Math.Sign(Math.Log(x, A)))
                 {
                     Console.WriteLine("Точка принадлежит фигуре");
                 }
